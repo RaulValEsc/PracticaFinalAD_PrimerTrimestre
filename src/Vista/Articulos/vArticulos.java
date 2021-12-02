@@ -210,8 +210,10 @@ public class vArticulos extends javax.swing.JDialog {
             ctrlA.borrarArticulos(a);
             for (Articulos a1 : Principal.listaArticulos) {
                 if (a1.getReferencia()== a.getReferencia()) {
-                    Principal.listaArticulos.remove(a1);
-                    break;
+                    if(JOptionPane.showConfirmDialog(this, "Está seguro que desea borrar el Artículo: "+a.getReferencia(), "Confirme la operación", JOptionPane.OK_CANCEL_OPTION)==0){
+                        Principal.listaArticulos.remove(a1);
+                        break;
+                    }
                 }
             }
             rellenarTabla(Principal.listaArticulos);
@@ -222,7 +224,7 @@ public class vArticulos extends javax.swing.JDialog {
     }//GEN-LAST:event_bBorrarArticulosActionPerformed
 
     private void bModificarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarArticulosActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_bModificarArticulosActionPerformed
 
     private void cbFiltroArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFiltroArticulosActionPerformed
