@@ -68,7 +68,7 @@ public class ControladorArticulos {
         switch (campo){
             case 0:{
                 for(Articulos a : lista){
-                    if(a.getReferencia().startsWith(filtro)){
+                    if(a.getReferencia().toUpperCase().startsWith(filtro.toUpperCase())){
                         listaFiltrada.add(a);
                     }
                 }

@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Vista.Articulos.vArticulos;
 import Controlador.ControladorBD;
 import Modelo.Articulos;
 import Modelo.Clientes;
@@ -31,8 +32,10 @@ public class Principal extends javax.swing.JFrame {
         listaArticulos = ctrl.cargarArticulos();
         listaClientes = ctrl.cargarClientes();
         listaFacturas = ctrl.cargarFacturas();
-        initComponents();
         //listaOfertas = ctrl.cargarOfertas();
+        initComponents();
+        this.setLocationRelativeTo(null);
+        
     }
 
     /**

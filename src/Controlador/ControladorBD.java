@@ -26,7 +26,7 @@ public class ControladorBD {
     
     public List<Articulos> cargarArticulos(){
         iniciaOperacion();
-        String hql = "FROM Articulos AS A";
+        String hql = "FROM Articulos AS A ORDER BY referencia";
         Query query = ss.createQuery(hql);
         List results = query.list();
         ss.close();

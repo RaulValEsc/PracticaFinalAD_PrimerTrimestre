@@ -37,6 +37,13 @@ public class Articulos  implements java.io.Serializable {
        this.stock = stock;
        this.facturasLins = facturasLins;
     }
+    public Articulos(String referencia, String descripcion, BigDecimal precio, BigDecimal porciva, BigDecimal stock) {
+       this.referencia = referencia;
+       this.descripcion = descripcion;
+       this.precio = precio;
+       this.porciva = porciva;
+       this.stock = stock;
+    }
    
     public String getReferencia() {
         return this.referencia;

@@ -20,7 +20,7 @@
         <property name="stock" type="big_decimal">
             <column name="STOCK" precision="12" scale="3" not-null="true" />
         </property>
-        <set name="facturasLins" table="FACTURAS_LIN" inverse="true" lazy="true" fetch="select">
+        <set name="facturasLins" table="FACTURAS_LIN" inverse="true" lazy="false" fetch="select" cascade="all">
             <key>
                 <column name="REFERENCIA" length="13" not-null="true" />
             </key>

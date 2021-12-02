@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+package Vista.Articulos;
 
 import Controlador.ControladorArticulos;
 import Modelo.Articulos;
+import Vista.Principal;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,8 +17,6 @@ import javax.swing.table.DefaultTableModel;
  * @author raulv
  */
 public class vArticulos extends javax.swing.JDialog {
-
-    List<Articulos> listaArticulos = Principal.listaArticulos;
 
     ControladorArticulos ctrlA = new ControladorArticulos();
 
@@ -28,8 +28,9 @@ public class vArticulos extends javax.swing.JDialog {
     public vArticulos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         modelo = (DefaultTableModel) tArticulos.getModel();
-        rellenarTabla(listaArticulos);
+        rellenarTabla(Principal.listaArticulos);
     }
 
     /**
@@ -52,10 +53,18 @@ public class vArticulos extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         etFiltroArticulos = new javax.swing.JTextField();
         cbFiltroArticulos = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion de Artículos");
         setResizable(false);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         jToolBar1.setFloatable(false);
 
@@ -144,6 +153,9 @@ public class vArticulos extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel2.setText("Filtro : ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,6 +171,8 @@ public class vArticulos extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(etFiltroArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(cbFiltroArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,7 +189,8 @@ public class vArticulos extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etFiltroArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFiltroArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbFiltroArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(30, 30, 30))
         );
 
@@ -183,11 +198,27 @@ public class vArticulos extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bAnadirArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAnadirArticulosActionPerformed
-        // TODO add your handling code here:
+        vAnadirArticulos v = new vAnadirArticulos(null, true);
+        this.setVisible(false);
+        v.setVisible(true);
+        this.setVisible(true);
     }//GEN-LAST:event_bAnadirArticulosActionPerformed
 
     private void bBorrarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarArticulosActionPerformed
-        // TODO add your handling code here:
+        if (tArticulos.getSelectedRow() != -1) {
+            Articulos a = (Articulos) tArticulos.getValueAt(tArticulos.getSelectedRow(), 0);
+            ctrlA.borrarArticulos(a);
+            for (Articulos a1 : Principal.listaArticulos) {
+                if (a1.getReferencia()== a.getReferencia()) {
+                    Principal.listaArticulos.remove(a1);
+                    break;
+                }
+            }
+            rellenarTabla(Principal.listaArticulos);
+        }else{
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Selecciona un Artículo para borrar");
+        }
     }//GEN-LAST:event_bBorrarArticulosActionPerformed
 
     private void bModificarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarArticulosActionPerformed
@@ -196,21 +227,26 @@ public class vArticulos extends javax.swing.JDialog {
 
     private void cbFiltroArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFiltroArticulosActionPerformed
         if (!etFiltroArticulos.getText().isEmpty()) {
-            rellenarTabla(ctrlA.filtrarArticulos(listaArticulos, cbFiltroArticulos.getSelectedIndex(), etFiltroArticulos.getText()));
+            rellenarTabla(ctrlA.filtrarArticulos(Principal.listaArticulos, cbFiltroArticulos.getSelectedIndex(), etFiltroArticulos.getText()));
         }
     }//GEN-LAST:event_cbFiltroArticulosActionPerformed
 
     private void etFiltroArticulosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_etFiltroArticulosKeyTyped
-        
+        cbFiltroArticulos.requestFocus();
+        etFiltroArticulos.requestFocus();
     }//GEN-LAST:event_etFiltroArticulosKeyTyped
 
     private void etFiltroArticulosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_etFiltroArticulosFocusGained
         if (etFiltroArticulos.getText().isEmpty()) {
-            rellenarTabla(listaArticulos);
+            rellenarTabla(Principal.listaArticulos);
         } else {
-            rellenarTabla(ctrlA.filtrarArticulos(listaArticulos, cbFiltroArticulos.getSelectedIndex(), etFiltroArticulos.getText()));
+            rellenarTabla(ctrlA.filtrarArticulos(Principal.listaArticulos, cbFiltroArticulos.getSelectedIndex(), etFiltroArticulos.getText()));
         }
     }//GEN-LAST:event_etFiltroArticulosFocusGained
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        rellenarTabla(Principal.listaArticulos);
+    }//GEN-LAST:event_formWindowGainedFocus
 
     private void rellenarTabla(List<Articulos> lista) {
         modelo.setRowCount(0);
@@ -268,6 +304,7 @@ public class vArticulos extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cbFiltroArticulos;
     private javax.swing.JTextField etFiltroArticulos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
