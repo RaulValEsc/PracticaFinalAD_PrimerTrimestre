@@ -5,11 +5,24 @@
  */
 package Vista.Articulos;
 
+import Controlador.ControladorArticulos;
+import Modelo.Articulos;
+import Vista.Principal;
+import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author raulv
  */
 public class vModificarArticulos extends javax.swing.JDialog {
+
+    DefaultTableModel modelo;
+
+    ControladorArticulos ctrl = new ControladorArticulos();
 
     /**
      * Creates new form vModificarArticulos
@@ -17,6 +30,14 @@ public class vModificarArticulos extends javax.swing.JDialog {
     public vModificarArticulos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        modelo = (DefaultTableModel) tModificarArticulos.getModel();
+        etReferencia.setText(vArticulos.referencia);
+        etDescripcion.setText(vArticulos.descripcion);
+        etPrecio.setText(vArticulos.precio);
+        etIva.setText(vArticulos.iva);
+        etStock.setText(vArticulos.stock);
+        rellenarTabla();
     }
 
     /**
@@ -76,11 +97,6 @@ public class vModificarArticulos extends javax.swing.JDialog {
         });
 
         etReferencia.setEnabled(false);
-        etReferencia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                etReferenciaKeyTyped(evt);
-            }
-        });
 
         jLabel2.setText("Descripción");
 
@@ -180,42 +196,38 @@ public class vModificarArticulos extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearActionPerformed
-        if(!etReferencia.getText().isEmpty()||!etDescripcion.getText().isEmpty()||!etPrecio.getText().isEmpty()||!etIva.getText().isEmpty()||!etStock.getText().isEmpty()){
+        if (!etReferencia.getText().isEmpty() || !etDescripcion.getText().isEmpty() || !etPrecio.getText().isEmpty() || !etIva.getText().isEmpty() || !etStock.getText().isEmpty()) {
             String referencia = etReferencia.getText();
             String descripcion = etDescripcion.getText();
             BigDecimal precio = new BigDecimal(etPrecio.getText().replace(",", "."));
             BigDecimal iva = new BigDecimal(etIva.getText());
             BigDecimal stock = new BigDecimal(etStock.getText());
-            Articulos a = new Articulos(referencia,descripcion,precio,iva,stock);
-            if(ctrl.anadirArticulos(a)){
-                Principal.listaArticulos.add(a);
-                rellenarTabla();
-            }else{
-                getToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Error al añadir el artículo, comprueba que la referencia y la descripción sean únicas","Error",JOptionPane.ERROR_MESSAGE);
+            Articulos a = new Articulos(referencia, descripcion, precio, iva, stock);
+            if (JOptionPane.showConfirmDialog(this, "Está seguro que desea modificar el artículo: " + a.getReferencia(), "Confirme la operación", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                if (ctrl.modificarArticulos(a)) {
+                    for (Articulos a1 : Principal.listaArticulos) {
+                        if (a1.getReferencia() == a.getReferencia()) {
+                            Principal.listaArticulos.remove(a1);
+                            Principal.listaArticulos.add(a);
+                            rellenarTabla();
+                            break;
+                        }
+                    }
+                    dispose();
+                } else {
+                    getToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "Error al modificar el artículo, comprueba que la descripción sea única", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        }else{
+        } else {
             getToolkit().beep();
-            JOptionPane.showMessageDialog(this, "No puede haber ningun campo vacío","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No puede haber ningun campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bCrearActionPerformed
 
     private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_bCancelarActionPerformed
-
-    private void etReferenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_etReferenciaKeyTyped
-        char car = evt.getKeyChar();
-        if (etReferencia.getText().length() == 13) {
-            evt.consume();
-            getToolkit().beep();
-        } else {
-            if (!Character.isDigit(car) && evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && !Character.isAlphabetic(car)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        }
-    }//GEN-LAST:event_etReferenciaKeyTyped
 
     private void etDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_etDescripcionKeyTyped
         char car = evt.getKeyChar();
@@ -229,6 +241,13 @@ public class vModificarArticulos extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_etDescripcionKeyTyped
+
+    public void rellenarTabla() {
+        modelo.setRowCount(0);
+        for (Articulos a : Principal.listaArticulos) {
+            modelo.addRow(new Object[]{a.getReferencia(), a.getDescripcion()});
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -288,4 +307,5 @@ public class vModificarArticulos extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tModificarArticulos;
     // End of variables declaration//GEN-END:variables
+
 }

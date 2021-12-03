@@ -22,6 +22,8 @@ public class vArticulos extends javax.swing.JDialog {
 
     DefaultTableModel modelo;
 
+    public static String referencia, descripcion, precio, iva, stock;
+
     /**
      * Creates new form vArticulos
      */
@@ -202,29 +204,48 @@ public class vArticulos extends javax.swing.JDialog {
         this.setVisible(false);
         v.setVisible(true);
         this.setVisible(true);
+        rellenarTabla(Principal.listaArticulos);
     }//GEN-LAST:event_bAnadirArticulosActionPerformed
 
     private void bBorrarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarArticulosActionPerformed
         if (tArticulos.getSelectedRow() != -1) {
             Articulos a = (Articulos) tArticulos.getValueAt(tArticulos.getSelectedRow(), 0);
-            ctrlA.borrarArticulos(a);
-            for (Articulos a1 : Principal.listaArticulos) {
-                if (a1.getReferencia()== a.getReferencia()) {
-                    if(JOptionPane.showConfirmDialog(this, "Está seguro que desea borrar el Artículo: "+a.getReferencia(), "Confirme la operación", JOptionPane.OK_CANCEL_OPTION)==0){
-                        Principal.listaArticulos.remove(a1);
-                        break;
+            if (JOptionPane.showConfirmDialog(this, "Está seguro que desea borrar el artículo: " + a.getReferencia(), "Confirme la operación", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                if (ctrlA.borrarArticulos(a)) {
+                    for (Articulos a1 : Principal.listaArticulos) {
+                        if (a1.getReferencia() == a.getReferencia()) {
+                            Principal.listaArticulos.remove(a1);
+                            break;
+                        }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ha ocurrido un error al borrar el artículo", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             rellenarTabla(Principal.listaArticulos);
-        }else{
+        } else {
             getToolkit().beep();
-            JOptionPane.showMessageDialog(this, "Selecciona un Artículo para borrar");
+            JOptionPane.showMessageDialog(this, "Selecciona un artículo para borrar");
         }
     }//GEN-LAST:event_bBorrarArticulosActionPerformed
 
     private void bModificarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarArticulosActionPerformed
-        
+        if (tArticulos.getSelectedRow() != -1) {
+            Articulos a = (Articulos) tArticulos.getValueAt(tArticulos.getSelectedRow(), 0);
+            referencia = a.getReferencia();
+            descripcion = a.getDescripcion();
+            precio = a.getPrecio().toString();
+            iva = a.getPorciva().toString();
+            stock = a.getStock().toString();
+            vModificarArticulos v = new vModificarArticulos(null, true);
+            this.setVisible(false);
+            v.setVisible(true);
+            this.setVisible(true);
+            rellenarTabla(Principal.listaArticulos);
+        } else {
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Selecciona un artículo para modificar");
+        }
     }//GEN-LAST:event_bModificarArticulosActionPerformed
 
     private void cbFiltroArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFiltroArticulosActionPerformed

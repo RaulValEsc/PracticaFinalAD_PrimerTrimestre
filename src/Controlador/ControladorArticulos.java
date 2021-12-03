@@ -23,61 +23,61 @@ public class ControladorArticulos {
 
     public ControladorArticulos() {
     }
-    
-    public boolean anadirArticulos(Articulos a){
-        try{
+
+    public boolean anadirArticulos(Articulos a) {
+        try {
             iniciaOperacion();
             ss.save(a);
-        }catch(HibernateException he){
-            System.out.println("Error = "+he.getMessage());
+        } catch (HibernateException he) {
+            System.out.println("Error = " + he.getMessage());
             return false;
-        }finally{
+        } finally {
             cerrarOperacion();
         }
         return true;
     }
-    
-    public boolean borrarArticulos(Articulos a){
-        try{
+
+    public boolean borrarArticulos(Articulos a) {
+        try {
             iniciaOperacion();
             ss.delete(a);
-        }catch(HibernateException he){
-            System.out.println("Error = "+he.getMessage());
+        } catch (HibernateException he) {
+            System.out.println("Error = " + he.getMessage());
             return false;
-        }finally{
+        } finally {
             cerrarOperacion();
         }
         return true;
     }
-    
-    public boolean modificarArticulos(Articulos a){
-        try{
+
+    public boolean modificarArticulos(Articulos a) {
+        try {
             iniciaOperacion();
             ss.update(a);
-        }catch(HibernateException he){
-            System.out.println("Error = "+he.getMessage());
+        } catch (HibernateException he) {
+            System.out.println("Error = " + he.getMessage());
             return false;
-        }finally{
+        } finally {
             cerrarOperacion();
         }
         return true;
     }
-    
-    public List<Articulos> filtrarArticulos(List<Articulos> lista, int campo, String filtro){
+
+    public List<Articulos> filtrarArticulos(List<Articulos> lista, int campo, String filtro) {
         List<Articulos> listaFiltrada = new ArrayList();
-        switch (campo){
-            case 0:{
-                for(Articulos a : lista){
-                    if(a.getReferencia().toUpperCase().startsWith(filtro.toUpperCase())){
+        switch (campo) {
+            case 0: {
+                for (Articulos a : lista) {
+                    if (a.getReferencia().toUpperCase().startsWith(filtro.toUpperCase())) {
                         listaFiltrada.add(a);
                     }
                 }
             }
-            case 1:{
-                for(Articulos a : lista){
-                if(a.getDescripcion().startsWith(filtro)){
-                    listaFiltrada.add(a);
-                }
+            case 1: {
+                for (Articulos a : lista) {
+                    if (a.getDescripcion().startsWith(filtro)) {
+                        listaFiltrada.add(a);
+                    }
                 }
             }
         }
