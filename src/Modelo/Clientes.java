@@ -60,8 +60,10 @@ public class Clientes  implements java.io.Serializable {
         this.facturasCabs = facturasCabs;
     }
 
-
-
+    @Override
+    public String toString() {
+        return dnicif;
+    }
 
 }
 

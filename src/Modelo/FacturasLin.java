@@ -81,8 +81,10 @@ public class FacturasLin  implements java.io.Serializable {
         this.ivalinea = ivalinea;
     }
 
-
-
+    @Override
+    public String toString() {
+        return id.getNumfac()+"";
+    }
 
 }
 

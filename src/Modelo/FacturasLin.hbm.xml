@@ -12,7 +12,7 @@
                 <column name="LINEAFAC" precision="10" scale="0" />
             </key-property>
         </composite-id>
-        <many-to-one name="articulos" class="Modelo.Articulos" fetch="select">
+        <many-to-one name="articulos" class="Modelo.Articulos" lazy="false" fetch="select">
             <column name="REFERENCIA" length="13" not-null="true" />
         </many-to-one>
         <many-to-one name="facturasCab" class="Modelo.FacturasCab" update="false" insert="false" fetch="select">

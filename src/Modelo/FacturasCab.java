@@ -70,8 +70,10 @@ public class FacturasCab  implements java.io.Serializable {
         this.facturasLins = facturasLins;
     }
 
-
-
+    @Override
+    public String toString() {
+        return numfac + "";
+    }
 
 }
 

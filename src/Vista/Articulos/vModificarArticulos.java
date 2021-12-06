@@ -203,7 +203,7 @@ public class vModificarArticulos extends javax.swing.JDialog {
             BigDecimal iva = new BigDecimal(etIva.getText());
             BigDecimal stock = new BigDecimal(etStock.getText());
             Articulos a = new Articulos(referencia, descripcion, precio, iva, stock);
-            if (JOptionPane.showConfirmDialog(this, "Está seguro que desea modificar el artículo: " + a.getReferencia(), "Confirme la operación", JOptionPane.OK_CANCEL_OPTION) == 0) {
+            if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea modificar el artículo: " + a.getReferencia() + "?", "Confirme la operación", JOptionPane.OK_CANCEL_OPTION) == 0) {
                 if (ctrl.modificarArticulos(a)) {
                     for (Articulos a1 : Principal.listaArticulos) {
                         if (a1.getReferencia() == a.getReferencia()) {

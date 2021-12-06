@@ -11,13 +11,13 @@
         <property name="nombrecli" type="string">
             <column name="NOMBRECLI" length="100" not-null="true" />
         </property>
-        <set name="estadisticasClienteses" table="ESTADISTICAS_CLIENTES" inverse="true" lazy="true" fetch="select">
+        <set name="estadisticasClienteses" table="ESTADISTICAS_CLIENTES" inverse="true" lazy="false" fetch="select" cascade="all">
             <key>
                 <column name="DNICIF" length="13" not-null="true" />
             </key>
             <one-to-many class="Modelo.EstadisticasClientes" />
         </set>
-        <set name="facturasCabs" table="FACTURAS_CAB" inverse="true" lazy="true" fetch="select">
+        <set name="facturasCabs" table="FACTURAS_CAB" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="DNICIF" length="13" not-null="true" />
             </key>

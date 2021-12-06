@@ -9,7 +9,10 @@ import Vista.Articulos.vArticulos;
 import Controlador.ControladorBD;
 import Modelo.Articulos;
 import Modelo.Clientes;
+import Modelo.FacturasCab;
 import Modelo.FacturasTot;
+import Vista.Clientes.vClientes;
+import Vista.Facturas.vFacturas;
 import java.util.List;
 
 /**
@@ -22,7 +25,7 @@ public class Principal extends javax.swing.JFrame {
 
     public static List<Articulos> listaArticulos;
     public static List<Clientes> listaClientes;
-    public static List<FacturasTot> listaFacturas;
+    public static List<FacturasCab> listaFacturas;
     public static List<FacturasTot> listaOfertas;
     
     /**
@@ -118,7 +121,10 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bClientesActionPerformed
-        // TODO add your handling code here:
+        vClientes v = new vClientes(this, true);
+        this.setVisible(false);
+        v.setVisible(true);
+        this.setVisible(true);
     }//GEN-LAST:event_bClientesActionPerformed
 
     private void bArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bArticulosActionPerformed
@@ -129,7 +135,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bArticulosActionPerformed
 
     private void bFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFacturasActionPerformed
-        // TODO add your handling code here:
+        vFacturas v = new vFacturas(this, true);
+        this.setVisible(false);
+        v.setVisible(true);
+        this.setVisible(true);
     }//GEN-LAST:event_bFacturasActionPerformed
 
     private void bOfertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOfertasActionPerformed

@@ -203,26 +203,30 @@ public class vArticulos extends javax.swing.JDialog {
         vAnadirArticulos v = new vAnadirArticulos(null, true);
         this.setVisible(false);
         v.setVisible(true);
-        this.setVisible(true);
         rellenarTabla(Principal.listaArticulos);
+        this.setVisible(true);
     }//GEN-LAST:event_bAnadirArticulosActionPerformed
 
     private void bBorrarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarArticulosActionPerformed
         if (tArticulos.getSelectedRow() != -1) {
             Articulos a = (Articulos) tArticulos.getValueAt(tArticulos.getSelectedRow(), 0);
-            if (JOptionPane.showConfirmDialog(this, "Está seguro que desea borrar el artículo: " + a.getReferencia(), "Confirme la operación", JOptionPane.OK_CANCEL_OPTION) == 0) {
-                if (ctrlA.borrarArticulos(a)) {
-                    for (Articulos a1 : Principal.listaArticulos) {
-                        if (a1.getReferencia() == a.getReferencia()) {
-                            Principal.listaArticulos.remove(a1);
-                            break;
+            if (a.getFacturasLins().size() > 0) {
+                JOptionPane.showMessageDialog(this, "Imposible borrar un artículo con facturas creadas", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea borrar el artículo: " + a.getReferencia() + "?", "Confirme la operación", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                    if (ctrlA.borrarArticulos(a)) {
+                        for (Articulos a1 : Principal.listaArticulos) {
+                            if (a1.getReferencia() == a.getReferencia()) {
+                                Principal.listaArticulos.remove(a1);
+                                break;
+                            }
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Ha ocurrido un error al borrar el artículo", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ha ocurrido un error al borrar el artículo", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                rellenarTabla(Principal.listaArticulos);
             }
-            rellenarTabla(Principal.listaArticulos);
         } else {
             getToolkit().beep();
             JOptionPane.showMessageDialog(this, "Selecciona un artículo para borrar");
@@ -240,8 +244,8 @@ public class vArticulos extends javax.swing.JDialog {
             vModificarArticulos v = new vModificarArticulos(null, true);
             this.setVisible(false);
             v.setVisible(true);
-            this.setVisible(true);
             rellenarTabla(Principal.listaArticulos);
+            this.setVisible(true);
         } else {
             getToolkit().beep();
             JOptionPane.showMessageDialog(this, "Selecciona un artículo para modificar");

@@ -9,8 +9,8 @@ package Modelo;
 public class FacturasLinId  implements java.io.Serializable {
 
 
-     private long numfac;
-     private long lineafac;
+    private long numfac;
+    private long lineafac;
 
     public FacturasLinId() {
     }

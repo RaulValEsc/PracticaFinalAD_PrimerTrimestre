@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.Articulos;
 import Modelo.Clientes;
+import Modelo.FacturasCab;
 import Modelo.FacturasTot;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -35,23 +36,23 @@ public class ControladorBD {
     
     public List<Clientes> cargarClientes(){
         iniciaOperacion();
-        String hql = "FROM Clientes AS C";
+        String hql = "FROM Clientes AS C ORDER BY dnicif";
         Query query = ss.createQuery(hql);
         List results = query.list();
         ss.close();
         return results;
     }
     
-    public List<FacturasTot> cargarFacturas(){
+    public List<FacturasCab> cargarFacturas(){
         iniciaOperacion();
-        String hql = "FROM FacturasTot AS F";
+        String hql = "FROM FacturasCab AS F ORDER BY numfac";
         Query query = ss.createQuery(hql);
         List results = query.list();
         ss.close();
         return results;
     }
     
-    /*public List<FacturasTot> cargarOfertas(){
+    /*public List<FacturasCab> cargarOfertas(){
         
     }*/
     

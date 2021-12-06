@@ -1,6 +1,5 @@
 package Controlador;
 
-import Modelo.Articulos;
 import Modelo.Clientes;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +19,10 @@ public class ControladorClientes {
     public ControladorClientes() {
     }
 
-    public boolean anadirClientes(Clientes a) {
+    public boolean anadirClientes(Clientes c) {
         try {
             iniciaOperacion();
-            ss.save(a);
+            ss.save(c);
         } catch (HibernateException he) {
             System.out.println("Error = " + he.getMessage());
             return false;
@@ -33,10 +32,10 @@ public class ControladorClientes {
         return true;
     }
 
-    public boolean borrarClientes(Clientes a) {
+    public boolean borrarClientes(Clientes c) {
         try {
             iniciaOperacion();
-            ss.delete(a);
+            ss.delete(c);
         } catch (HibernateException he) {
             System.out.println("Error = " + he.getMessage());
             return false;
@@ -46,10 +45,10 @@ public class ControladorClientes {
         return true;
     }
 
-    public boolean modificarClientes(Clientes a) {
+    public boolean modificarClientes(Clientes c) {
         try {
             iniciaOperacion();
-            ss.update(a);
+            ss.update(c);
         } catch (HibernateException he) {
             System.out.println("Error = " + he.getMessage());
             return false;
@@ -63,16 +62,16 @@ public class ControladorClientes {
         List<Clientes> listaFiltrada = new ArrayList();
         switch (campo) {
             case 0: {
-                for (Clientes a : lista) {
-                    if (a.getReferencia().toUpperCase().startsWith(filtro.toUpperCase())) {
-                        listaFiltrada.add(a);
+                for (Clientes c : lista) {
+                    if (c.getDnicif().toUpperCase().startsWith(filtro.toUpperCase())) {
+                        listaFiltrada.add(c);
                     }
                 }
             }
             case 1: {
-                for (Clientes a : lista) {
-                    if (a.getDescripcion().startsWith(filtro)) {
-                        listaFiltrada.add(a);
+                for (Clientes c : lista) {
+                    if (c.getNombrecli().toUpperCase().startsWith(filtro.toUpperCase())) {
+                        listaFiltrada.add(c);
                     }
                 }
             }

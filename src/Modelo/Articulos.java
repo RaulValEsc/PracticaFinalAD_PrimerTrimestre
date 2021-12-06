@@ -95,7 +95,7 @@ public class Articulos  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return this.referencia;
+        return this.referencia + " - "+this.descripcion;
     }
 
 }

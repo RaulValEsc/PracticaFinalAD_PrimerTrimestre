@@ -14,7 +14,7 @@
         <property name="fechafac" type="date">
             <column name="FECHAFAC" length="7" />
         </property>
-        <one-to-one name="facturasTot" class="Modelo.FacturasTot"></one-to-one>
+        <one-to-one name="facturasTot" class="Modelo.FacturasTot" cascade="all"></one-to-one>
         <set name="facturasLins" table="FACTURAS_LIN" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="NUMFAC" precision="10" scale="0" not-null="true" />
