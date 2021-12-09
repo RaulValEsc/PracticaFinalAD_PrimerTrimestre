@@ -235,7 +235,7 @@ public class vArticulos extends javax.swing.JDialog {
 
     private void bModificarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarArticulosActionPerformed
         if (tArticulos.getSelectedRow() != -1) {
-            Articulos a = (Articulos) tArticulos.getValueAt(tArticulos.getSelectedRow(), 0);
+            Articulos a = (Articulos) tArticulos.getValueAt(tArticulos.getSelectedRow(), 1);
             referencia = a.getReferencia();
             descripcion = a.getDescripcion();
             precio = a.getPrecio().toString();
@@ -278,7 +278,7 @@ public class vArticulos extends javax.swing.JDialog {
     private void rellenarTabla(List<Articulos> lista) {
         modelo.setRowCount(0);
         for (Articulos a : lista) {
-            modelo.addRow(new Object[]{a, a.getDescripcion(), a.getPrecio(), a.getPorciva(), a.getStock()});
+            modelo.addRow(new Object[]{a.getReferencia(), a, a.getPrecio(), a.getPorciva(), a.getStock()});
         }
     }
 

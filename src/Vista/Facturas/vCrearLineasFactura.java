@@ -16,6 +16,7 @@ import Vista.Principal;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.JOptionPane;
@@ -256,9 +257,7 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(79, 79, 79)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(etDescuento, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(sCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(sCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(bCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
@@ -271,7 +270,9 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel4))
                                 .addGap(61, 61, 61)
-                                .addComponent(cbArticulos, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbArticulos, 0, 178, Short.MAX_VALUE)
+                                    .addComponent(etDescuento)))
                             .addComponent(bGenerarFactura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -299,7 +300,6 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,7 +322,7 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
                             .addComponent(bCancelar)
                             .addComponent(bAgregar)
                             .addComponent(bBorrar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addComponent(bGenerarFactura)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,9 +346,11 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
         for (Articulos a : listaArticulosAModificar) {
             ctrlA.modificarArticulos(a);
         }
-        cabecera.setFacturasLins((Set) listaLineas);
+        Set<FacturasLin> set = new HashSet<>(listaLineas);
+        cabecera.setFacturasLins(set);
         cabecera.setFacturasTot(facturaTotal);
         ctrl.anadirCabecera(cabecera);
+        Principal.listaFacturas.add(cabecera);
         JOptionPane.showMessageDialog(this, "Factura generada con éxito");
         dispose();
     }//GEN-LAST:event_bGenerarFacturaActionPerformed
@@ -356,49 +358,55 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
     private void bAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAgregarActionPerformed
         boolean repetido = false;
         if (!etDescuento.getText().isEmpty()) {
-            Articulos a = (Articulos) cbArticulos.getSelectedItem();
-            if (Double.parseDouble(a.getStock().toString()) >= Double.parseDouble(sCantidad.getValue().toString())) {
-                for (FacturasLin l : listaLineas) {
-                    if (a.getReferencia() == l.getArticulos().getReferencia()) {
-                        repetido = true;
-                    }
-                }
-                if (repetido) {
+            if (Integer.parseInt(etDescuento.getText()) >= 0 && Integer.parseInt(etDescuento.getText()) <= 100) {
+                Articulos a = (Articulos) cbArticulos.getSelectedItem();
+                if (Double.parseDouble(a.getStock().toString()) >= Double.parseDouble(sCantidad.getValue().toString())) {
                     for (FacturasLin l : listaLineas) {
                         if (a.getReferencia() == l.getArticulos().getReferencia()) {
-                            listaLineas.remove(l);
-                            l.setCantidad(new BigDecimal(Integer.parseInt(l.getCantidad().toString()) + (Integer) sCantidad.getValue()));
-                            listaLineas.add(l);
-                            a.setStock(new BigDecimal(Double.parseDouble(a.getStock().toString()) - Double.parseDouble(sCantidad.getValue().toString())));
-                            listaArticulosAModificar.add(a);
-                            for (Articulos a1 : Principal.listaArticulos) {
-                                if (a1.getReferencia() == a.getReferencia()) {
-                                    Principal.listaArticulos.remove(a1);
-                                    Principal.listaArticulos.add(a);
-                                    break;
+                            repetido = true;
+                        }
+                    }
+                    if (repetido) {
+                        for (FacturasLin l : listaLineas) {
+                            if (a.getReferencia() == l.getArticulos().getReferencia()) {
+                                listaLineas.remove(l);
+                                l.setCantidad(new BigDecimal(Integer.parseInt(l.getCantidad().toString()) + (Integer) sCantidad.getValue()));
+                                l.setDtolinea(new BigDecimal(etDescuento.getText()));
+                                listaLineas.add(l);
+                                a.setStock(new BigDecimal(Double.parseDouble(a.getStock().toString()) - Double.parseDouble(sCantidad.getValue().toString())));
+                                listaArticulosAModificar.add(a);
+                                for (Articulos a1 : Principal.listaArticulos) {
+                                    if (a1.getReferencia() == a.getReferencia()) {
+                                        Principal.listaArticulos.remove(a1);
+                                        Principal.listaArticulos.add(a);
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                } else {
-                    FacturasLinId id = new FacturasLinId(cabecera.getNumfac(), ctrl.ultimoNumLinFac(cabecera));
-                    FacturasLin linea = new FacturasLin(id, a, cabecera, new BigDecimal((Integer) sCantidad.getValue()), a.getPrecio(), new BigDecimal(etDescuento.getText()), a.getPorciva());
-                    listaLineas.add(linea);
-                    a.setStock(new BigDecimal(Double.parseDouble(a.getStock().toString()) - Double.parseDouble(sCantidad.getValue().toString())));
-                    listaArticulosAModificar.add(a);
-                    for (Articulos a1 : Principal.listaArticulos) {
-                        if (a1.getReferencia() == a.getReferencia()) {
-                            Principal.listaArticulos.remove(a1);
-                            Principal.listaArticulos.add(a);
-                            break;
+                    } else {
+                        FacturasLinId id = new FacturasLinId(cabecera.getNumfac(), ctrl.ultimoNumLinFac(listaLineas));
+                        FacturasLin linea = new FacturasLin(id, a, cabecera, new BigDecimal((Integer) sCantidad.getValue()), a.getPrecio(), new BigDecimal(etDescuento.getText()), a.getPorciva());
+                        listaLineas.add(linea);
+                        a.setStock(new BigDecimal(Double.parseDouble(a.getStock().toString()) - Double.parseDouble(sCantidad.getValue().toString())));
+                        listaArticulosAModificar.add(a);
+                        for (Articulos a1 : Principal.listaArticulos) {
+                            if (a1.getReferencia() == a.getReferencia()) {
+                                Principal.listaArticulos.remove(a1);
+                                Principal.listaArticulos.add(a);
+                                break;
+                            }
                         }
                     }
+                    rellenarLineas();
+                    calcularTotal();
+                } else {
+                    getToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "No hay sufiente stock de ese artículo, el stock es de " + a.getStock(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                rellenarLineas();
-                calcularTotal();
             } else {
                 getToolkit().beep();
-                JOptionPane.showMessageDialog(this, "No hay sufiente stock de ese artículo, el stock es de " + a.getStock(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El descuento ha de estar comprendido entre 0 y 100", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             getToolkit().beep();
@@ -460,7 +468,7 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
 
     private void rellenarCabecera() {
         modeloCabecera.setRowCount(0);
-        SimpleDateFormat format =new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         modeloCabecera.addRow(new Object[]{cabecera, format.format(cabecera.getFechafac()), cabecera.getClientes().getDnicif()});
     }
 
@@ -485,7 +493,11 @@ public class vCrearLineasFactura extends javax.swing.JDialog {
             Double iva = Double.parseDouble(linea.getIvalinea().toString());
             base += cantidad * precio;
             descuentoTotal += cantidad * precio * (descuento / 100);
-            ivaTotal += cantidad * precio * (descuento / 100) * (iva / 100);
+            if (descuento > 0) {
+                ivaTotal += cantidad * precio * (descuento / 100) * (iva / 100);
+            } else {
+                ivaTotal += cantidad * precio * (iva / 100);
+            }
         }
         Double total = base - descuentoTotal;
         facturaTotal = new FacturasTot(cabecera, new BigDecimal(base), new BigDecimal(descuentoTotal), new BigDecimal(ivaTotal), new BigDecimal(total));

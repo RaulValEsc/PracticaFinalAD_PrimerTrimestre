@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.Articulos;
 import Modelo.Clientes;
+import Modelo.EstadisticasClientes;
 import Modelo.FacturasCab;
 import Modelo.FacturasTot;
 import java.util.List;
@@ -55,6 +56,15 @@ public class ControladorBD {
     /*public List<FacturasCab> cargarOfertas(){
         
     }*/
+    
+    public List<EstadisticasClientes> cargarEstadisticas(){
+        iniciaOperacion();
+        String hql = "FROM EstadisticasClientes AS E ORDER BY E.id.anio";
+        Query query = ss.createQuery(hql);
+        List results = query.list();
+        ss.close();
+        return results;
+    }
     
     private void iniciaOperacion() throws HibernateException {
         ss = NewHibernateUtil.getSessionFactory().openSession();

@@ -9,10 +9,12 @@ import Vista.Articulos.vArticulos;
 import Controlador.ControladorBD;
 import Modelo.Articulos;
 import Modelo.Clientes;
+import Modelo.EstadisticasClientes;
 import Modelo.FacturasCab;
 import Modelo.FacturasTot;
 import Vista.Clientes.vClientes;
 import Vista.Facturas.vFacturas;
+import Vista.Ofertas.vOfertas;
 import java.util.List;
 
 /**
@@ -26,7 +28,8 @@ public class Principal extends javax.swing.JFrame {
     public static List<Articulos> listaArticulos;
     public static List<Clientes> listaClientes;
     public static List<FacturasCab> listaFacturas;
-    public static List<FacturasTot> listaOfertas;
+    public static List<FacturasCab> listaOfertas;
+    public static List<EstadisticasClientes> listaEstadisticas;
     
     /**
      * Creates new form Principal
@@ -36,6 +39,7 @@ public class Principal extends javax.swing.JFrame {
         listaClientes = ctrl.cargarClientes();
         listaFacturas = ctrl.cargarFacturas();
         //listaOfertas = ctrl.cargarOfertas();
+        listaEstadisticas = ctrl.cargarEstadisticas();
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -142,7 +146,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bFacturasActionPerformed
 
     private void bOfertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOfertasActionPerformed
-        // TODO add your handling code here:
+        vOfertas v = new vOfertas(this,true);
+        this.setVisible(false);
+        v.setVisible(true);
+        this.setVisible(true);
     }//GEN-LAST:event_bOfertasActionPerformed
 
     /**

@@ -8,14 +8,14 @@
             <column name="NUMFAC" precision="10" scale="0" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="clientes" class="Modelo.Clientes" fetch="select">
+        <many-to-one name="clientes" class="Modelo.Clientes" lazy="false" fetch="select">
             <column name="DNICIF" length="13" not-null="true" />
         </many-to-one>
         <property name="fechafac" type="date">
             <column name="FECHAFAC" length="7" />
         </property>
-        <one-to-one name="facturasTot" class="Modelo.FacturasTot" cascade="all"></one-to-one>
-        <set name="facturasLins" table="FACTURAS_LIN" inverse="true" lazy="true" fetch="select">
+        <one-to-one name="facturasTot" class="Modelo.FacturasTot" lazy="false" fetch="select" cascade="all"></one-to-one>
+        <set name="facturasLins" table="FACTURAS_LIN" inverse="true" lazy="false" fetch="select" cascade="all">
             <key>
                 <column name="NUMFAC" precision="10" scale="0" not-null="true" />
             </key>

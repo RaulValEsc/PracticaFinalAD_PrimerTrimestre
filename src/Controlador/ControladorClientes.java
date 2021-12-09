@@ -1,8 +1,16 @@
 package Controlador;
 
 import Modelo.Clientes;
+import Modelo.EstadisticasClientes;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -77,6 +85,44 @@ public class ControladorClientes {
             }
         }
         return listaFiltrada;
+    }
+    
+    public List<EstadisticasClientes> filtrarEstadisticas(List<EstadisticasClientes> lista, int campo, String filtro) {
+        List<EstadisticasClientes> listaFiltrada = new ArrayList();
+        switch (campo) {
+            case 0: {
+                for (EstadisticasClientes c : lista) {
+                    if (Long.toString(c.getId().getAnio()).toUpperCase().startsWith(filtro.toUpperCase())) {
+                        listaFiltrada.add(c);
+                    }
+                }
+            }
+            case 1: {
+                for (EstadisticasClientes c : lista) {
+                    if (c.getClientes().getDnicif().toUpperCase().startsWith(filtro.toUpperCase())) {
+                        listaFiltrada.add(c);
+                    }
+                }
+            }
+        }
+        return listaFiltrada;
+    }
+    
+    public boolean generarEstadisticas(Clientes c1, Clientes c2, Date fecha1, Date fecha2){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AD_TEMA_03_FACTURAS", "AD_TEMA_03_FACTURAS");
+            String ins = "{call p_GenerarEstadisticas(?,?,?,?)}";
+            CallableStatement sentencia = con.prepareCall(ins);
+            sentencia.setString(1, c1.getDnicif());
+            sentencia.setString(2, c2.getDnicif());
+            sentencia.setDate(3, fecha1);
+            sentencia.setDate(4, fecha2);
+            sentencia.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorClientes.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     private void iniciaOperacion() throws HibernateException {

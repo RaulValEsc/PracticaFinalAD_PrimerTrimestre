@@ -75,7 +75,7 @@ public class ControladorArticulos {
             }
             case 1: {
                 for (Articulos a : lista) {
-                    if (a.getDescripcion().startsWith(filtro)) {
+                    if (a.getDescripcion().toUpperCase().startsWith(filtro.toUpperCase())) {
                         listaFiltrada.add(a);
                     }
                 }

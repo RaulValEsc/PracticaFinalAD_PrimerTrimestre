@@ -51,6 +51,8 @@ public class vClientes extends javax.swing.JDialog {
         bBorrarClientes = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         bModificarClientes = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        bEstadisticas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tClientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -98,6 +100,18 @@ public class vClientes extends javax.swing.JDialog {
             }
         });
         jToolBar1.add(bModificarClientes);
+        jToolBar1.add(jSeparator3);
+
+        bEstadisticas.setText("Estadísticas");
+        bEstadisticas.setFocusable(false);
+        bEstadisticas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bEstadisticas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bEstadisticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEstadisticasActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(bEstadisticas);
 
         tClientes.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -255,6 +269,13 @@ public class vClientes extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_cbFiltroClientesActionPerformed
 
+    private void bEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEstadisticasActionPerformed
+        vEstadisticas v = new vEstadisticas(null, true);
+        this.setVisible(false);
+        v.setVisible(true);
+        this.setVisible(true);
+    }//GEN-LAST:event_bEstadisticasActionPerformed
+
     private void rellenarTabla(List<Clientes> lista) {
         modelo.setRowCount(0);
         for (Clientes c : lista) {
@@ -307,6 +328,7 @@ public class vClientes extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAnadirClientes;
     private javax.swing.JButton bBorrarClientes;
+    private javax.swing.JButton bEstadisticas;
     private javax.swing.JButton bModificarClientes;
     private javax.swing.JComboBox<String> cbFiltroClientes;
     private javax.swing.JTextField etFiltroClientes;
@@ -315,6 +337,7 @@ public class vClientes extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tClientes;
     // End of variables declaration//GEN-END:variables
