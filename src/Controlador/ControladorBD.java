@@ -53,9 +53,9 @@ public class ControladorBD {
         return results;
     }
     
-    /*public List<FacturasCab> cargarOfertas(){
+    public List<FacturasCab> cargarOfertas(){
         
-    }*/
+    }
     
     public List<EstadisticasClientes> cargarEstadisticas(){
         iniciaOperacion();
