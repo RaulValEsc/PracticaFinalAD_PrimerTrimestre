@@ -124,15 +124,15 @@ public class ControladorFacturas {
 
     public int ultimoNumLinFac(List<FacturasLin> lista) {
         Connection conexion;
-        int idmax =0;
-        for(FacturasLin f : lista){
-            if(f.getId().getLineafac()>idmax){
+        int idmax = 0;
+        for (FacturasLin f : lista) {
+            if (f.getId().getLineafac() > idmax) {
                 idmax = Integer.parseInt(Long.toString(f.getId().getLineafac()));
             }
-        }    
+        }
         idmax++;
         return idmax;
-        
+
     }
 
     public List<FacturasCab> filtrarFacturas(List<FacturasCab> lista, int campo, String filtro) {
@@ -161,7 +161,7 @@ public class ControladorFacturas {
         for (FacturasCab f : lista) {
             JSONObject jsn = new JSONObject();
             jsn.put("numfac", f.getNumfac());
-            jsn.put("fechafac", f.getFechafac());
+            jsn.put("fechafac", f.getFechafac().toString());
             jsn.put("DNI", f.getClientes().getDnicif());
             jsn.put("NombreCli", f.getClientes().getNombrecli());
 
@@ -188,20 +188,11 @@ public class ControladorFacturas {
 
             }
             jsn.put("LineasFactura", jsnArray);
-            JSONArray jsnTotal = new JSONArray();
-            JSONObject baseTotal = new JSONObject();
-            JSONObject DescuentoTotal = new JSONObject();
-            JSONObject IvaTotal = new JSONObject();
-            JSONObject Total = new JSONObject();
-
-            baseTotal.put("BaseTotal", f.getFacturasTot().getBaseimp());
-            DescuentoTotal.put("DescuentoTotal", f.getFacturasTot().getImpDto());
-            IvaTotal.put("IvaTotal", f.getFacturasTot().getImpIva());
-            Total.put("Total", f.getFacturasTot().getTotalfac());
-            jsnTotal.add(baseTotal);
-            jsnTotal.add(DescuentoTotal);
-            jsnTotal.add(IvaTotal);
-            jsnTotal.add(Total);
+            JSONObject jsnTotal = new JSONObject();
+            jsnTotal.put("BaseTotal", f.getFacturasTot().getBaseimp());
+            jsnTotal.put("DescuentoTotal", f.getFacturasTot().getImpDto());
+            jsnTotal.put("IvaTotal", f.getFacturasTot().getImpIva());
+            jsnTotal.put("Total", f.getFacturasTot().getTotalfac());
             jsn.put("Totales", jsnTotal);
             listaFac.add(jsn);
         }
@@ -211,7 +202,7 @@ public class ControladorFacturas {
     public String generarJSON(FacturasCab f) {
         JSONObject jsn = new JSONObject();
         jsn.put("numfac", f.getNumfac());
-        jsn.put("fechafac", f.getFechafac());
+        jsn.put("fechafac", f.getFechafac().toString());
         jsn.put("DNI", f.getClientes().getDnicif());
         jsn.put("NombreCli", f.getClientes().getNombrecli());
 
@@ -238,20 +229,11 @@ public class ControladorFacturas {
 
         }
         jsn.put("LineasFactura", jsnArray);
-        JSONArray jsnTotal = new JSONArray();
-        JSONObject baseTotal = new JSONObject();
-        JSONObject DescuentoTotal = new JSONObject();
-        JSONObject IvaTotal = new JSONObject();
-        JSONObject Total = new JSONObject();
-
-        baseTotal.put("BaseTotal", f.getFacturasTot().getBaseimp());
-        DescuentoTotal.put("DescuentoTotal", f.getFacturasTot().getImpDto());
-        IvaTotal.put("IvaTotal", f.getFacturasTot().getImpIva());
-        Total.put("Total", f.getFacturasTot().getTotalfac());
-        jsnTotal.add(baseTotal);
-        jsnTotal.add(DescuentoTotal);
-        jsnTotal.add(IvaTotal);
-        jsnTotal.add(Total);
+        JSONObject jsnTotal = new JSONObject();
+        jsnTotal.put("BaseTotal", f.getFacturasTot().getBaseimp());
+        jsnTotal.put("DescuentoTotal", f.getFacturasTot().getImpDto());
+        jsnTotal.put("IvaTotal", f.getFacturasTot().getImpIva());
+        jsnTotal.put("Total", f.getFacturasTot().getTotalfac());
         jsn.put("Totales", jsnTotal);
 
         System.out.println(jsn.toJSONString());

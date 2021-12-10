@@ -112,15 +112,13 @@ public class ControladorClientes {
         try {
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AD_TEMA_03_FACTURAS", "AD_TEMA_03_FACTURAS");
             String ins = "{call p_GenerarEstadisticas(?,?,?,?)}";
-            System.out.println("h");
             CallableStatement sentencia = con.prepareCall(ins);
-            System.out.println("o");
             sentencia.setString(1, c1.getDnicif());
             sentencia.setString(2, c2.getDnicif());
             sentencia.setDate(3, fecha1);
             sentencia.setDate(4, fecha2);
-            sentencia.executeUpdate();  
-            System.out.println("la");
+            int i = sentencia.executeUpdate();  
+            System.out.println(i);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ControladorClientes.class.getName()).log(Level.SEVERE, null, ex);
