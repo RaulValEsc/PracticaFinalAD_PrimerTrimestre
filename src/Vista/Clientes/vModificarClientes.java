@@ -173,15 +173,16 @@ public class vModificarClientes extends javax.swing.JDialog {
 
     private void etNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_etNombreKeyTyped
         char car = evt.getKeyChar();
-        if (etNombre.getText().length() == 100) {
+        if (evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && evt.getKeyChar() != KeyEvent.VK_SLASH && !Character.isAlphabetic(car) && evt.getKeyChar() != KeyEvent.VK_SPACE) {
             evt.consume();
             getToolkit().beep();
         } else {
-            if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && !Character.isAlphabetic(car) && evt.getKeyCode() != KeyEvent.VK_SPACE) {
+            if (etNombre.getText().length() == 100) {
                 evt.consume();
                 getToolkit().beep();
             }
         }
+
     }//GEN-LAST:event_etNombreKeyTyped
 
     private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
@@ -200,7 +201,7 @@ public class vModificarClientes extends javax.swing.JDialog {
                 }
             } else {
                 getToolkit().beep();
-                JOptionPane.showMessageDialog(this, "Error al añadir el cliente, comprueba que el Dni y el nombre sean únicos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al modificar el cliente, comprueba que el Dni y el nombre sean únicos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             getToolkit().beep();

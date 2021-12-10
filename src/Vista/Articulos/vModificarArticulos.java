@@ -235,7 +235,7 @@ public class vModificarArticulos extends javax.swing.JDialog {
             evt.consume();
             getToolkit().beep();
         } else {
-            if (!Character.isDigit(car) && evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && !Character.isAlphabetic(car) && evt.getKeyCode() != KeyEvent.VK_SPACE) {
+            if (!Character.isDigit(car) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && !Character.isAlphabetic(car) && evt.getKeyChar() != KeyEvent.VK_SPACE) {
                 evt.consume();
                 getToolkit().beep();
             }

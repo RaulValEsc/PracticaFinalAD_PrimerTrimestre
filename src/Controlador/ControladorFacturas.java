@@ -5,20 +5,17 @@
  */
 package Controlador;
 
-import Modelo.Clientes;
 import Modelo.FacturasCab;
 import Modelo.FacturasLin;
-import com.sun.xml.internal.txw2.Document;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.Iterator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -161,7 +158,8 @@ public class ControladorFacturas {
         for (FacturasCab f : lista) {
             JSONObject jsn = new JSONObject();
             jsn.put("numfac", f.getNumfac());
-            jsn.put("fechafac", f.getFechafac().toString());
+            SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+            jsn.put("fechafac", formato.format(f.getFechafac()));
             jsn.put("DNI", f.getClientes().getDnicif());
             jsn.put("NombreCli", f.getClientes().getNombrecli());
 

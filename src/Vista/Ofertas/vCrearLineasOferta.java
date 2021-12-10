@@ -184,7 +184,7 @@ public class vCrearLineasOferta extends javax.swing.JDialog {
 
         jLabel3.setText("Total de la factura:");
 
-        bGenerarOferta.setText("Generar Factura");
+        bGenerarOferta.setText("Generar Ofertas");
         bGenerarOferta.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         bGenerarOferta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,6 +426,7 @@ public class vCrearLineasOferta extends javax.swing.JDialog {
             System.out.println("Error : "+ex.getMessage());
         }
         JOptionPane.showMessageDialog(this, "Ofertas JSON generado correctamente");
+        dispose();
     }//GEN-LAST:event_bGenerarOfertaActionPerformed
 
     private void rellenarArticulos() {

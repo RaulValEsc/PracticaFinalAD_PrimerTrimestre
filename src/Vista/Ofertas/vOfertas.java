@@ -23,6 +23,8 @@ public class vOfertas extends javax.swing.JDialog {
 
     ControladorFacturas ctrl = new ControladorFacturas();
     DefaultTableModel modelo;
+    
+    public static FacturasCab facturaUtil;
 
     /**
      * Creates new form vOfertas
@@ -32,7 +34,7 @@ public class vOfertas extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         modelo = (DefaultTableModel) tOfertas.getModel();
-        rellenarTabla(Principal.listaFacturas);
+        rellenarTabla(Principal.listaOfertas);
     }
 
     /**
@@ -211,6 +213,7 @@ public class vOfertas extends javax.swing.JDialog {
         vCrearOfertas v = new vCrearOfertas(null, true);
         this.setVisible(false);
         v.setVisible(true);
+        rellenarTabla(Principal.listaOfertas);
         this.setVisible(true);
     }//GEN-LAST:event_bCrearActionPerformed
 
