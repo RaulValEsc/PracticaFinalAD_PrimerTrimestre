@@ -59,7 +59,7 @@ public class ControladorBD {
     
     public List<EstadisticasClientes> cargarEstadisticas(){
         iniciaOperacion();
-        String hql = "FROM EstadisticasClientes AS E ORDER BY E.id.anio";
+        String hql = "FROM EstadisticasClientes AS E";
         Query query = ss.createQuery(hql);
         List results = query.list();
         ss.close();
